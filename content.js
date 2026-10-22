@@ -250,7 +250,7 @@ const GAME_CONTENT = {
   // two of you any time if you'd rather, same aspect ratio (3:2) works best.
   // ------------------------------------------------------------------------
   puzzle: {
-    photo: 'assets/puzzle/diamond_heart.svg',
+    photo: 'assets/puzzle/diamond_heart.svg?v=2',
     gridCols: 3,
     gridRows: 2,
     prePlacedCount: 0,

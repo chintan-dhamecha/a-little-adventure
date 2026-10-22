@@ -660,6 +660,7 @@
 
     // Every reason already collected stays on the board behind the balloons.
     $('l4-board').innerHTML = '';
+    level4Slots = makeLevel4Slots(target);
     state.level4.collectedIds.forEach((i) => addReasonNote(C.reasons[i], false));
 
     stopLevel4();
@@ -791,9 +792,37 @@
     const note = document.createElement('div');
     note.className = 'reason-note' + (fresh ? ' reason-note-pending' : '');
     note.textContent = text;
+    const slot = level4Slots[board.children.length % level4Slots.length];
+    note.style.left = slot.left + '%';
+    note.style.top = slot.top + '%';
+    note.style.width = slot.width + '%';
+    note.style.setProperty('--rot', slot.rot + 'deg');
     board.appendChild(note);
-    if (fresh) board.scrollTo({ top: board.scrollHeight, behavior: 'smooth' });
     return note;
+  }
+
+  // Splits the board into a grid with one cell per reason, then shuffles
+  // the cells so reasons land scattered all over the screen (with a little
+  // jitter and tilt) instead of filling in from one corner.
+  let level4Slots = [];
+  function makeLevel4Slots(count) {
+    const width = $('l4-board').clientWidth || window.innerWidth;
+    const cols = Math.max(2, Math.min(5, Math.floor(width / 210)));
+    const rows = Math.ceil(count / cols);
+    const cellW = 100 / cols;
+    const cellH = 100 / rows;
+    const slots = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        slots.push({
+          left: c * cellW + Math.random() * cellW * 0.1,
+          top: r * cellH + Math.random() * cellH * 0.15,
+          width: cellW * 0.9,
+          rot: (Math.random() * 8 - 4).toFixed(1),
+        });
+      }
+    }
+    return shuffled(slots);
   }
 
   function showFlyingReason(text, fromRect, note) {

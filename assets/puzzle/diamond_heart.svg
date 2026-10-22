@@ -4,13 +4,19 @@
       <stop offset="0%" stop-color="#fdf3ec"/>
       <stop offset="100%" stop-color="#e9c9d6"/>
     </linearGradient>
+    <!-- icy diamond body: bright white top-left fading to cool steel blue -->
     <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f3b6c4"/>
-      <stop offset="45%" stop-color="#d9708a"/>
-      <stop offset="100%" stop-color="#5b2a52"/>
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#d9ecf8"/>
+      <stop offset="75%" stop-color="#9db7cc"/>
+      <stop offset="100%" stop-color="#5f7a92"/>
     </linearGradient>
     <radialGradient id="shine" cx="38%" cy="28%" r="45%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="55%" r="55%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.7"/>
       <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </radialGradient>
     <clipPath id="heartClip">
@@ -26,8 +32,11 @@
 
   <rect width="1200" height="800" fill="url(#bgGrad)"/>
 
-  <!-- soft ambient sparkle stars scattered behind the heart -->
-  <g fill="#ffffff" opacity="0.55">
+  <!-- soft white halo so the diamond reads as glowing -->
+  <ellipse cx="600" cy="440" rx="560" ry="390" fill="url(#glow)"/>
+
+  <!-- ambient sparkle stars scattered behind the heart -->
+  <g fill="#ffffff" opacity="0.7">
     <path d="M90,90 l10,28 28,10 -28,10 -10,28 -10,-28 -28,-10 28,-10 Z"/>
     <path d="M1110,110 l7,20 20,7 -20,7 -7,20 -7,-20 -20,-7 20,-7 Z"/>
     <path d="M70,690 l8,22 22,8 -22,8 -8,22 -8,-22 -22,-8 22,-8 Z"/>
@@ -43,19 +52,55 @@
            C630,230 680,175 750,130
            C880,50 1050,90 1050,260
            C1050,520 600,790 600,790 Z"
-        fill="url(#heartGrad)" stroke="#fff6ef" stroke-width="6"/>
+        fill="url(#heartGrad)"/>
 
-  <!-- diamond-cut facet lines, clipped to the heart -->
-  <g clip-path="url(#heartClip)">
-    <polygon points="600,290 450,130 150,260" fill="#ffffff" opacity="0.16"/>
-    <polygon points="600,290 750,130 1050,260" fill="#000000" opacity="0.08"/>
-    <polygon points="600,290 150,260 600,790" fill="#ffffff" opacity="0.08"/>
-    <polygon points="600,290 1050,260 600,790" fill="#000000" opacity="0.10"/>
-    <line x1="600" y1="190" x2="600" y2="790" stroke="#ffffff" stroke-opacity="0.25" stroke-width="3"/>
-    <line x1="150" y1="260" x2="1050" y2="260" stroke="#ffffff" stroke-opacity="0.2" stroke-width="3"/>
-    <line x1="450" y1="130" x2="600" y2="560" stroke="#ffffff" stroke-opacity="0.18" stroke-width="2"/>
-    <line x1="750" y1="130" x2="600" y2="560" stroke="#ffffff" stroke-opacity="0.18" stroke-width="2"/>
-    <circle cx="380" cy="230" r="190" fill="url(#shine)"/>
+  <!-- brilliant-cut facets radiating from a central table, clipped to the heart -->
+  <g clip-path="url(#heartClip)" stroke="#ffffff" stroke-opacity="0.55" stroke-width="2.5" stroke-linejoin="round">
+    <!-- outer ring: alternating light and shadow facets -->
+    <polygon points="600,290 450,130 520,330" fill="#ffffff" fill-opacity="0.55"/>
+    <polygon points="450,130 300,140 520,330" fill="#eaf5fc" fill-opacity="0.5"/>
+    <polygon points="300,140 150,260 400,380" fill="#ffffff" fill-opacity="0.45"/>
+    <polygon points="300,140 520,330 400,380" fill="#c9dff0" fill-opacity="0.4"/>
+    <polygon points="150,260 180,440 400,380" fill="#dbeefa" fill-opacity="0.45"/>
+    <polygon points="180,440 330,600 400,380" fill="#a9c3d8" fill-opacity="0.45"/>
+    <polygon points="330,600 470,520 400,380" fill="#ffffff" fill-opacity="0.3"/>
+    <polygon points="330,600 600,790 470,520" fill="#8aa6bd" fill-opacity="0.45"/>
+    <polygon points="470,520 600,790 600,560" fill="#ffffff" fill-opacity="0.35"/>
+    <polygon points="600,560 600,790 730,520" fill="#6f8ca5" fill-opacity="0.45"/>
+    <polygon points="730,520 600,790 870,600" fill="#9fb9cf" fill-opacity="0.5"/>
+    <polygon points="730,520 870,600 800,380" fill="#5d7890" fill-opacity="0.35"/>
+    <polygon points="870,600 1020,440 800,380" fill="#7f9bb3" fill-opacity="0.45"/>
+    <polygon points="1020,440 1050,260 800,380" fill="#b9d0e2" fill-opacity="0.45"/>
+    <polygon points="1050,260 900,140 800,380" fill="#ffffff" fill-opacity="0.35"/>
+    <polygon points="900,140 680,330 800,380" fill="#94b0c7" fill-opacity="0.4"/>
+    <polygon points="900,140 750,130 680,330" fill="#d4e7f5" fill-opacity="0.5"/>
+    <polygon points="750,130 600,290 680,330" fill="#ffffff" fill-opacity="0.5"/>
+    <!-- inner ring around the table -->
+    <polygon points="600,290 520,330 680,330" fill="#ffffff" fill-opacity="0.6"/>
+    <polygon points="520,330 400,380 470,520" fill="#eef7fd" fill-opacity="0.45"/>
+    <polygon points="680,330 800,380 730,520" fill="#a3bdd2" fill-opacity="0.45"/>
+    <polygon points="470,520 600,560 730,520" fill="#c2d7e8" fill-opacity="0.4"/>
+    <!-- the table: the big flat top facet -->
+    <polygon points="520,330 680,330 730,520 600,560 470,520" fill="#ffffff" fill-opacity="0.35"/>
+    <circle cx="380" cy="230" r="200" fill="url(#shine)" stroke="none"/>
   </g>
 
+  <!-- crisp outline -->
+  <path d="M600,790
+           C600,790 150,520 150,260
+           C150,90 320,50 450,130
+           C520,175 570,230 600,290
+           C630,230 680,175 750,130
+           C880,50 1050,90 1050,260
+           C1050,520 600,790 600,790 Z"
+        fill="none" stroke="#ffffff" stroke-width="6"/>
+
+  <!-- sparkle glints on the diamond itself -->
+  <g fill="#ffffff">
+    <path d="M330,200 l9,30 30,9 -30,9 -9,30 -9,-30 -30,-9 30,-9 Z"/>
+    <path d="M820,230 l6,20 20,6 -20,6 -6,20 -6,-20 -20,-6 20,-6 Z"/>
+    <path d="M600,430 l7,24 24,7 -24,7 -7,24 -7,-24 -24,-7 24,-7 Z"/>
+    <path d="M440,560 l5,16 16,5 -16,5 -5,16 -5,-16 -16,-5 16,-5 Z"/>
+    <path d="M930,380 l5,16 16,5 -16,5 -5,16 -5,-16 -16,-5 16,-5 Z"/>
+  </g>
 </svg>
