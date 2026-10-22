@@ -340,7 +340,7 @@
   const INTRO_COPY = {
     1: ['Level 1', 'Where in the world?', "Let's see how well you remember our travels."],
     2: ['Level 2', 'Favourite things', 'Five questions. I bet you ace all of them.'],
-    3: ['Level 3', 'What were you wearing?', 'A little style memory quiz, just for fun.'],
+    3: ['Level 3', 'What are you wearing?', 'A little style memory quiz, just for fun.'],
     4: ['Level 4', 'Reasons I love you', 'Pop the balloons and bloom the flowers to collect them all.'],
     5: ['Level 5', 'The puzzle', 'One last thing — put us back together.'],
   };
@@ -555,14 +555,14 @@
   }
 
   /* =============================================================
-     LEVEL 3 — What were you wearing?
+     LEVEL 3 — What are you wearing?
   ============================================================= */
   function renderLevel3() {
     const round = C.level3.rounds[state.level3.roundIndex];
     $('l3-round-num').textContent = state.level3.roundIndex + 1;
     const img = $('l3-photo');
     img.src = round.photo;
-    img.alt = 'What were you wearing?';
+    img.alt = 'What are you wearing?';
     img.classList.remove('revealed');
 
     $('l3-caption').hidden = true;
