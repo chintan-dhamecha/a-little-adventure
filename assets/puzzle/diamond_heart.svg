@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fdf3ec"/>
+      <stop offset="100%" stop-color="#e9c9d6"/>
+    </linearGradient>
+    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3b6c4"/>
+      <stop offset="45%" stop-color="#d9708a"/>
+      <stop offset="100%" stop-color="#5b2a52"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="38%" cy="28%" r="45%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="heartClip">
+      <path d="M600,790
+               C600,790 150,520 150,260
+               C150,90 320,50 450,130
+               C520,175 570,230 600,290
+               C630,230 680,175 750,130
+               C880,50 1050,90 1050,260
+               C1050,520 600,790 600,790 Z"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bgGrad)"/>
+
+  <!-- soft ambient sparkle stars scattered behind the heart -->
+  <g fill="#ffffff" opacity="0.55">
+    <path d="M90,90 l10,28 28,10 -28,10 -10,28 -10,-28 -28,-10 28,-10 Z"/>
+    <path d="M1110,110 l7,20 20,7 -20,7 -7,20 -7,-20 -20,-7 20,-7 Z"/>
+    <path d="M70,690 l8,22 22,8 -22,8 -8,22 -8,-22 -22,-8 22,-8 Z"/>
+    <path d="M1130,650 l10,26 26,10 -26,10 -10,26 -10,-26 -26,-10 26,-10 Z"/>
+    <path d="M1060,730 l6,16 16,6 -16,6 -6,16 -6,-16 -16,-6 16,-6 Z"/>
+  </g>
+
+  <!-- the heart, sized to fill most of the 1200x800 frame so every puzzle piece gets a real slice of it -->
+  <path d="M600,790
+           C600,790 150,520 150,260
+           C150,90 320,50 450,130
+           C520,175 570,230 600,290
+           C630,230 680,175 750,130
+           C880,50 1050,90 1050,260
+           C1050,520 600,790 600,790 Z"
+        fill="url(#heartGrad)" stroke="#fff6ef" stroke-width="6"/>
+
+  <!-- diamond-cut facet lines, clipped to the heart -->
+  <g clip-path="url(#heartClip)">
+    <polygon points="600,290 450,130 150,260" fill="#ffffff" opacity="0.16"/>
+    <polygon points="600,290 750,130 1050,260" fill="#000000" opacity="0.08"/>
+    <polygon points="600,290 150,260 600,790" fill="#ffffff" opacity="0.08"/>
+    <polygon points="600,290 1050,260 600,790" fill="#000000" opacity="0.10"/>
+    <line x1="600" y1="190" x2="600" y2="790" stroke="#ffffff" stroke-opacity="0.25" stroke-width="3"/>
+    <line x1="150" y1="260" x2="1050" y2="260" stroke="#ffffff" stroke-opacity="0.2" stroke-width="3"/>
+    <line x1="450" y1="130" x2="600" y2="560" stroke="#ffffff" stroke-opacity="0.18" stroke-width="2"/>
+    <line x1="750" y1="130" x2="600" y2="560" stroke="#ffffff" stroke-opacity="0.18" stroke-width="2"/>
+    <circle cx="380" cy="230" r="190" fill="url(#shine)"/>
+  </g>
+
+</svg>

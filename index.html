@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="robots" content="noindex" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>Happy Birthday, Sonali 💌</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%96%3C/text%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ============================================================= -->
+<!-- GLOBAL UI: progress pill, pieces tray, mute toggle            -->
+<!-- ============================================================= -->
+<header id="global-ui" class="global-ui" hidden>
+  <div class="progress-pill" id="progress-pill" aria-live="polite">Level 1 of 5</div>
+
+  <div class="pieces-tray" id="pieces-tray" aria-label="Puzzle pieces collected">
+    <div class="piece-slot" data-slot="0"></div>
+    <div class="piece-slot" data-slot="1"></div>
+    <div class="piece-slot" data-slot="2"></div>
+    <div class="piece-slot" data-slot="3"></div>
+    <div class="piece-slot" data-slot="4"></div>
+    <div class="piece-slot" data-slot="5"></div>
+  </div>
+
+  <button id="mute-toggle" class="icon-btn" type="button" aria-label="Toggle sound">🔇</button>
+</header>
+
+<!-- Overlay layers for confetti / sparkle / flying pieces -->
+<div id="fx-layer" class="fx-layer" aria-hidden="true"></div>
+
+<main id="app">
+
+  <!-- ============================================================= -->
+  <!-- GATE: passcode screen                                         -->
+  <!-- ============================================================= -->
+  <section id="screen-gate" class="screen screen-gate" data-screen>
+    <div class="sparkle-field" aria-hidden="true"></div>
+    <div class="gate-card">
+      <div class="gate-heart" aria-hidden="true">💗</div>
+      <h1 class="screen-title" id="gate-title">For <span id="her-name">You</span></h1>
+      <p class="gate-sub">A little birthday adventure, just for you. Enter the passcode to begin.</p>
+
+      <form id="gate-form" class="gate-form" autocomplete="off">
+        <input
+          id="gate-input"
+          class="gate-input"
+          type="text"
+          inputmode="text"
+          autocapitalize="none"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="passcode"
+          aria-label="Passcode"
+        />
+        <button type="submit" class="btn btn-primary">Unlock ✨</button>
+      </form>
+
+      <p id="gate-message" class="gate-message" role="status"></p>
+      <p id="gate-hint" class="gate-hint" hidden></p>
+    </div>
+
+    <button id="reset-progress-btn" class="reset-link" type="button" title="Reset progress (testing)">reset</button>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- LEVEL INTRO (shared short charming card between levels)       -->
+  <!-- ============================================================= -->
+  <section id="screen-intro" class="screen screen-intro" data-screen hidden>
+    <div class="intro-card">
+      <p class="intro-eyebrow" id="intro-eyebrow">Level 1</p>
+      <h2 class="intro-title" id="intro-title">Where in the world?</h2>
+      <p class="intro-sub" id="intro-sub">Let's see how well you remember our travels.</p>
+      <button id="intro-continue-btn" class="btn btn-primary" type="button">Let's go</button>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- LEVEL 1: Guess the place                                      -->
+  <!-- ============================================================= -->
+  <section id="screen-level1" class="screen screen-level1" data-screen hidden>
+    <div class="level-header">
+      <p class="level-kicker">Level 1 · Round <span id="l1-round-num">1</span> of 3</p>
+      <h2 class="level-title">Where was this?</h2>
+    </div>
+
+    <div class="photo-frame">
+      <img id="l1-photo" class="level-photo" alt="A travel memory" loading="lazy" />
+    </div>
+
+    <div class="options-grid" id="l1-options" role="group" aria-label="Choose the location"></div>
+
+    <p class="feedback-message" id="l1-feedback" role="status"></p>
+  </section>
+
+  <!-- Level 1 slideshow (shown after correct answer) -->
+  <section id="screen-slideshow" class="screen screen-slideshow" data-screen hidden>
+    <div class="slideshow-wrap">
+      <img id="slideshow-photo" class="slideshow-photo" alt="Memory photo" loading="lazy" />
+      <p class="slideshow-caption" id="slideshow-caption"></p>
+      <div class="slideshow-controls">
+        <div class="slideshow-dots" id="slideshow-dots"></div>
+        <button id="slideshow-next-btn" class="btn btn-ghost" type="button">Next ›</button>
+        <button id="slideshow-skip-btn" class="btn btn-ghost" type="button">Skip »</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- LEVEL 2: Favourite things                                     -->
+  <!-- ============================================================= -->
+  <section id="screen-level2" class="screen screen-level2" data-screen hidden>
+    <div class="level-header">
+      <p class="level-kicker">Level 2 · Question <span id="l2-q-num">1</span> of 5</p>
+      <h2 class="level-title" id="l2-question">Question</h2>
+    </div>
+
+    <div class="options-grid" id="l2-options" role="group" aria-label="Choose an answer"></div>
+
+    <p class="feedback-message" id="l2-feedback" role="status"></p>
+  </section>
+
+  <!-- Level 2 recap -->
+  <section id="screen-l2-recap" class="screen screen-l2-recap" data-screen hidden>
+    <div class="intro-card">
+      <p class="intro-eyebrow">Level 2 complete</p>
+      <h2 class="intro-title">You know her so well 💕</h2>
+      <ul class="recap-list" id="l2-recap-list"></ul>
+      <button id="l2-recap-continue-btn" class="btn btn-primary" type="button">Continue</button>
+    </div>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- LEVEL 3: What was she wearing?                                -->
+  <!-- ============================================================= -->
+  <section id="screen-level3" class="screen screen-level3" data-screen hidden>
+    <div class="level-header">
+      <p class="level-kicker">Level 3 · Round <span id="l3-round-num">1</span> of 3</p>
+      <h2 class="level-title">What was she wearing?</h2>
+    </div>
+
+    <div class="photo-frame photo-frame-portrait">
+      <img id="l3-photo" class="level-photo level-photo-bw" alt="A photo of her, in black and white" loading="lazy" />
+      <div class="sparkle-burst" id="l3-sparkle" aria-hidden="true"></div>
+    </div>
+
+    <div class="swatch-grid" id="l3-options" role="group" aria-label="Choose the colour"></div>
+
+    <p class="feedback-message" id="l3-feedback" role="status"></p>
+    <p class="level-caption" id="l3-caption" hidden></p>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- LEVEL 4: Reasons I love you                                   -->
+  <!-- ============================================================= -->
+  <section id="screen-level4" class="screen screen-level4" data-screen hidden>
+    <div class="level4-hud">
+      <p class="level-kicker">Level 4 · Pop a balloon or bloom a flower</p>
+      <p class="level4-counter"><span id="l4-count">0</span> / <span id="l4-target">15</span> reasons found</p>
+    </div>
+
+    <div class="playfield" id="l4-playfield"></div>
+
+    <div class="jar-wrap">
+      <div class="jar" id="l4-jar">
+        <div class="jar-fill" id="l4-jar-fill"></div>
+        <div class="jar-label">jar of reasons</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reason detail popup (re-read a collected reason) -->
+  <div id="reason-modal" class="modal" hidden>
+    <div class="modal-card">
+      <p id="reason-modal-text" class="modal-text"></p>
+      <button id="reason-modal-close" class="btn btn-ghost" type="button">Close</button>
+    </div>
+  </div>
+
+  <!-- ============================================================= -->
+  <!-- LEVEL 5: The puzzle                                           -->
+  <!-- ============================================================= -->
+  <section id="screen-level5" class="screen screen-level5" data-screen hidden>
+    <div class="level-header">
+      <p class="level-kicker">Level 5 · Final piece of us</p>
+      <h2 class="level-title">Put us back together</h2>
+    </div>
+
+    <div class="puzzle-wrap">
+      <div class="puzzle-board" id="puzzle-board"></div>
+      <div class="puzzle-tray" id="puzzle-tray" aria-label="Puzzle pieces to place"></div>
+    </div>
+
+    <button id="puzzle-hint-btn" class="btn btn-ghost puzzle-hint-btn" type="button">Show hint 💡</button>
+  </section>
+
+  <!-- ============================================================= -->
+  <!-- FINALE                                                        -->
+  <!-- ============================================================= -->
+  <section id="screen-finale" class="screen screen-finale" data-screen hidden>
+    <div class="finale-card">
+      <div class="finale-heart" aria-hidden="true">💖</div>
+      <h2 class="screen-title">Happy Birthday!</h2>
+      <p class="finale-message" id="finale-message"></p>
+
+      <div class="gift-box" id="gift-box">
+        <h3 class="gift-title">One more thing...</h3>
+        <p class="gift-clue" id="gift-clue"></p>
+        <button id="gift-hint-btn" class="btn btn-ghost" type="button">Show hint</button>
+        <p class="gift-hint" id="gift-hint" hidden></p>
+      </div>
+
+      <div class="finale-actions">
+        <button id="replay-btn" class="btn btn-ghost" type="button">Rewatch the memories 🎞️</button>
+        <button id="play-again-btn" class="btn btn-primary" type="button">Play the whole thing again 🔁</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rewatch memories viewer -->
+  <section id="screen-rewatch" class="screen screen-rewatch" data-screen hidden>
+    <div class="slideshow-wrap">
+      <img id="rewatch-photo" class="slideshow-photo" alt="Memory photo" loading="lazy" />
+      <p class="slideshow-caption" id="rewatch-caption"></p>
+      <div class="slideshow-controls">
+        <div class="slideshow-dots" id="rewatch-dots"></div>
+        <button id="rewatch-next-btn" class="btn btn-ghost" type="button">Next ›</button>
+        <button id="rewatch-close-btn" class="btn btn-ghost" type="button">Back to finale</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="content.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
