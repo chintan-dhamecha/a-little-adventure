@@ -169,7 +169,12 @@
       <p class="level4-counter"><span id="l4-count">0</span> / <span id="l4-target">15</span> reasons found</p>
     </div>
 
-    <div class="playfield" id="l4-playfield"></div>
+    <div class="l4-stage">
+      <div class="reason-board" id="l4-board" aria-live="polite"></div>
+      <div class="playfield" id="l4-playfield"></div>
+    </div>
+
+    <button id="l4-continue-btn" class="btn btn-primary l4-continue" type="button" hidden>Continue</button>
 
     <div class="jar-wrap">
       <div class="jar" id="l4-jar">

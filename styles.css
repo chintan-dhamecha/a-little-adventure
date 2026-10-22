@@ -636,12 +636,58 @@ img { max-width: 100%; display: block; }
   margin-top: 4px;
 }
 
-.playfield {
+.l4-stage {
   position: relative;
   width: 100%;
   flex: 1;
   min-height: 0;
+}
+
+/* Collected reasons live here, behind the balloons. The playfield on top
+   lets clicks through everywhere except the balloons themselves, so the
+   board can still be scrolled. */
+.reason-board {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 4px 24px;
+}
+
+.reason-note {
+  max-width: min(100%, 300px);
+  background: rgba(255, 250, 244, 0.92);
+  border: 1.5px solid rgba(183, 110, 121, 0.35);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-soft);
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  font-weight: 500;
+  color: var(--color-plum);
+  text-align: center;
+  transition: opacity 400ms ease, transform 400ms cubic-bezier(.3,.9,.3,1.4);
+}
+
+.reason-note-pending {
+  opacity: 0;
+  transform: scale(0.85);
+}
+
+.playfield {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   overflow: hidden;
+  pointer-events: none;
+}
+
+.l4-continue {
+  margin: 8px auto 4px;
 }
 
 .float-item {
@@ -654,6 +700,7 @@ img { max-width: 100%; display: block; }
   justify-content: center;
   font-size: 2.2rem;
   cursor: pointer;
+  pointer-events: auto;
   touch-action: none;
   user-select: none;
   will-change: transform;

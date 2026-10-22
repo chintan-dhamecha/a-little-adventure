@@ -656,6 +656,11 @@
 
     const playfield = $('l4-playfield');
     playfield.innerHTML = '';
+    $('l4-continue-btn').hidden = true;
+
+    // Every reason already collected stays on the board behind the balloons.
+    $('l4-board').innerHTML = '';
+    state.level4.collectedIds.forEach((i) => addReasonNote(C.reasons[i], false));
 
     stopLevel4();
 
@@ -762,7 +767,7 @@
     spawnSparkles(rect.x + rect.width / 2, rect.y + rect.height / 2, 6);
 
     const reasonText = C.reasons[item.reasonIndex];
-    showFlyingReason(reasonText, rect);
+    showFlyingReason(reasonText, rect, addReasonNote(reasonText, true));
 
     setTimeout(() => {
       item.el.remove();
@@ -775,11 +780,23 @@
     updateJarFill();
 
     if (state.level4.collectedIds.length >= rt.target) {
-      setTimeout(() => finishLevel4(), 1800);
+      setTimeout(() => finishLevel4(), 2400);
     }
   }
 
-  function showFlyingReason(text, fromRect) {
+  // Adds a reason to the board that sits behind the balloons. A fresh note
+  // stays invisible until the flying card lands on it.
+  function addReasonNote(text, fresh) {
+    const board = $('l4-board');
+    const note = document.createElement('div');
+    note.className = 'reason-note' + (fresh ? ' reason-note-pending' : '');
+    note.textContent = text;
+    board.appendChild(note);
+    if (fresh) board.scrollTo({ top: board.scrollHeight, behavior: 'smooth' });
+    return note;
+  }
+
+  function showFlyingReason(text, fromRect, note) {
     const card = document.createElement('div');
     card.className = 'reason-card';
     card.textContent = text;
@@ -797,18 +814,21 @@
     card.style.top = top + 'px';
     document.body.appendChild(card);
 
-    // Hold the card large & fully readable for a moment before it flies to
-    // the jar — it used to start shrinking almost immediately, too fast to
-    // actually read.
+    // Hold the card large & fully readable for a moment, then fly it onto
+    // its note on the board, where the reason stays for good.
     const HOLD_MS = 1400;
-    const jarRect = $('l4-jar').getBoundingClientRect();
     setTimeout(() => {
-      const dx = jarRect.x + jarRect.width / 2 - fromRect.x;
-      const dy = jarRect.y - fromRect.y;
-      card.style.transform = `translate(${dx}px, ${dy}px) scale(0.2)`;
-      card.style.opacity = '0.15';
+      const cardRect = card.getBoundingClientRect();
+      const noteRect = note.getBoundingClientRect();
+      const dx = noteRect.x + noteRect.width / 2 - (cardRect.x + cardRect.width / 2);
+      const dy = noteRect.y + noteRect.height / 2 - (cardRect.y + cardRect.height / 2);
+      card.style.transform = `translate(${dx}px, ${dy}px) scale(0.5)`;
+      card.style.opacity = '0';
     }, HOLD_MS);
-    setTimeout(() => card.remove(), HOLD_MS + 900);
+    setTimeout(() => {
+      card.remove();
+      note.classList.remove('reason-note-pending');
+    }, HOLD_MS + 700);
   }
 
   function updateJarFill() {
@@ -832,11 +852,13 @@
   }
   $('reason-modal-close').addEventListener('click', () => { $('reason-modal').hidden = true; });
 
+  // No auto-advance: she gets to read the full board, then taps Continue.
   function finishLevel4() {
     stopLevel4();
     spawnConfetti(80);
-    setTimeout(() => goToLevel(5), 1200);
+    $('l4-continue-btn').hidden = false;
   }
+  $('l4-continue-btn').addEventListener('click', () => goToLevel(5));
 
   /* =============================================================
      LEVEL 5 — The puzzle
