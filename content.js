@@ -156,7 +156,7 @@ const GAME_CONTENT = {
   },
 
   // ------------------------------------------------------------------------
-  // LEVEL 3 — What was she wearing? (3 rounds)
+  // LEVEL 3 — What are you wearing? (3 rounds)
   // Each option is a swatch: { name, hex }. The photo is shown in greyscale
   // first (via CSS filter) and animates to colour on the correct guess.
   // ------------------------------------------------------------------------
