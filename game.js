@@ -688,13 +688,15 @@
     }
   }
 
+  const LEVEL4_MAX_CONCURRENT = 8;
+
   function startLevel4Loop() {
     const rt = level4Runtime;
     const emojis = ['🎈', '🎈', '🎈', '🌸', '🌺', '🌷'];
 
     function spawnOne() {
       if (rt.queue.length === 0) return;
-      if (rt.active.length >= 5) return;
+      if (rt.active.length >= LEVEL4_MAX_CONCURRENT) return;
       const reasonIndex = rt.queue.shift();
       const el = document.createElement('div');
       el.className = 'float-item';
@@ -705,7 +707,7 @@
         reasonIndex,
         x: 20 + Math.random() * Math.max(10, fieldWidth - 80),
         y: -30,
-        speed: 85 + Math.random() * 55,
+        speed: 55 + Math.random() * 35,
         driftAmp: 10 + Math.random() * 20,
         driftFreq: 0.5 + Math.random() * 0.7,
         phase: Math.random() * Math.PI * 2,
@@ -722,9 +724,11 @@
     }
 
     rt.spawnTimer = setInterval(() => {
-      const elapsedRatio = rt.active.length / 5;
-      if (elapsedRatio < 1) spawnOne();
-    }, 1100);
+      if (rt.active.length < LEVEL4_MAX_CONCURRENT) spawnOne();
+    }, 800);
+    // A second, slightly offset spawn so the field fills up fast at the start
+    // rather than trickling in one at a time.
+    setTimeout(() => { if (rt.active.length < LEVEL4_MAX_CONCURRENT) spawnOne(); }, 400);
     spawnOne();
 
     let lastT = performance.now();
@@ -771,7 +775,7 @@
     updateJarFill();
 
     if (state.level4.collectedIds.length >= rt.target) {
-      setTimeout(() => finishLevel4(), 900);
+      setTimeout(() => finishLevel4(), 1800);
     }
   }
 
@@ -779,18 +783,32 @@
     const card = document.createElement('div');
     card.className = 'reason-card';
     card.textContent = text;
-    card.style.left = (fromRect.x - 110) + 'px';
-    card.style.top = (fromRect.y - 20) + 'px';
+    // Clamp so the card never flies off-screen for balloons popped near
+    // the left/right edges — it used to just position at fromRect.x - 110
+    // unclamped, which could render it entirely off-screen and invisible.
+    const cardWidth = 270;
+    const margin = 10;
+    const left = Math.max(
+      margin,
+      Math.min(window.innerWidth - cardWidth - margin, fromRect.x - 110)
+    );
+    const top = Math.max(margin, fromRect.y - 20);
+    card.style.left = left + 'px';
+    card.style.top = top + 'px';
     document.body.appendChild(card);
 
+    // Hold the card large & fully readable for a moment before it flies to
+    // the jar — it used to start shrinking almost immediately, too fast to
+    // actually read.
+    const HOLD_MS = 1400;
     const jarRect = $('l4-jar').getBoundingClientRect();
-    requestAnimationFrame(() => {
+    setTimeout(() => {
       const dx = jarRect.x + jarRect.width / 2 - fromRect.x;
       const dy = jarRect.y - fromRect.y;
       card.style.transform = `translate(${dx}px, ${dy}px) scale(0.2)`;
       card.style.opacity = '0.15';
-    });
-    setTimeout(() => card.remove(), 950);
+    }, HOLD_MS);
+    setTimeout(() => card.remove(), HOLD_MS + 900);
   }
 
   function updateJarFill() {
@@ -1020,8 +1038,17 @@
     if (ghosts.length > 0 && filled.length === ghosts.length) {
       board.classList.add('sealed');
       if (animate) {
-        spawnConfetti(70);
-        setTimeout(() => navigateTo('screen-finale'), 1400);
+        spawnConfetti(90);
+        // A generous, repeated burst of sparkles across the whole heart.
+        const burstSparkles = () => {
+          const r = board.getBoundingClientRect();
+          spawnSparkles(r.x + Math.random() * r.width, r.y + Math.random() * r.height, 12);
+        };
+        burstSparkles();
+        for (let i = 1; i <= 5; i++) {
+          setTimeout(burstSparkles, i * 350);
+        }
+        setTimeout(() => navigateTo('screen-finale'), 2400);
       }
     }
   }

@@ -69,7 +69,7 @@ const GAME_CONTENT = {
     rounds: [
       {
         id: 'bangalore-palace',
-        photo: 'assets/level1/bangalore_palace_1.jpg',
+        photo: 'assets/level1/bangalore_palace_4.jpg',
         options: ['Bangalore Palace', 'Bangalore Fort', 'MG Road', 'Sakleshpur'],
         answerIndex: 0,
         slideshow: [
@@ -128,27 +128,27 @@ const GAME_CONTENT = {
   level2: {
     questions: [
       {
-        question: "What's her favourite food?",
+        question: "What's your favourite food?",
         options: ['Biryani', 'Pasta', 'Pani Puri', 'Dosa'],
         anyCorrect: true,
       },
       {
-        question: "What's her favourite colour?",
+        question: "What's your favourite colour?",
         options: ['Pink', 'Purple', 'Blue', 'Yellow'],
         answerIndex: 0,
       },
       {
-        question: "What's her favourite dessert?",
+        question: "What's your favourite dessert?",
         options: ['Gulab Jamun', 'Ice Cream', 'Chocolate Cake', 'Rasmalai'],
         anyCorrect: true,
       },
       {
-        question: "What's her favourite travel destination?",
+        question: "What's your favourite travel destination?",
         options: ['Paris', 'Dubai', 'Manali', 'Kedarnath'],
         anyCorrect: true,
       },
       {
-        question: "What's the best way to spend a Sunday with you?",
+        question: "What's the best way to spend a Sunday together?",
         options: ['Sleeping in', 'A long brunch', 'A movie marathon', 'A long drive'],
         anyCorrect: true,
       },
@@ -253,7 +253,7 @@ const GAME_CONTENT = {
     photo: 'assets/puzzle/diamond_heart.svg',
     gridCols: 3,
     gridRows: 2,
-    prePlacedCount: 3,
+    prePlacedCount: 0,
   },
 
   // ------------------------------------------------------------------------
