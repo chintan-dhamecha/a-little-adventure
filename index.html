@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-<link rel="stylesheet" href="styles.css?v=3" />
+<link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
 
@@ -218,6 +218,11 @@
       <h2 class="screen-title">Happy Birthday!</h2>
       <p class="finale-message" id="finale-message"></p>
 
+      <button id="see-video-btn" class="btn btn-primary" type="button">See video 🎬</button>
+      <div class="finale-video" id="finale-video" hidden>
+        <video id="finale-video-player" controls playsinline preload="none"></video>
+      </div>
+
       <div class="gift-box" id="gift-box">
         <h3 class="gift-title">One more thing...</h3>
         <p class="gift-clue" id="gift-clue"></p>
@@ -247,7 +252,8 @@
 
 </main>
 
-<script src="content.js?v=3"></script>
-<script src="game.js?v=3"></script>
+<script src="content.js?v=4"></script>
+<script src="lofi.js?v=4"></script>
+<script src="game.js?v=4"></script>
 </body>
 </html>

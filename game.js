@@ -24,7 +24,7 @@
       level4: { collectedIds: [] },
       level5: { placements: {} },
       piecesEarnedOrder: [],
-      muted: true,
+      muted: false,
     };
   }
 
@@ -203,7 +203,25 @@
     state.muted = !state.muted;
     saveState();
     renderGlobalUI(currentScreenId());
+    syncMusic();
   });
+
+  /* -----------------------------------------------------------
+     BACKGROUND MUSIC (lofi.js)
+     Plays once she's unlocked the game, unless muted, the tab is
+     hidden, or the finale video is playing. Browsers only allow
+     audio to start from a tap/key press, so every tap re-checks.
+  ----------------------------------------------------------- */
+  let finaleVideoPlaying = false;
+  function syncMusic() {
+    if (!window.Lofi) return;
+    const want = state.unlocked && !state.muted && !finaleVideoPlaying && !document.hidden;
+    if (want) window.Lofi.start();
+    else window.Lofi.pause();
+  }
+  document.addEventListener('click', syncMusic);
+  document.addEventListener('keyup', syncMusic);
+  document.addEventListener('visibilitychange', syncMusic);
 
   function currentScreenId() {
     return Object.values(screens).find((el) => !el.hidden)?.id || 'screen-gate';
@@ -297,6 +315,7 @@
         message.textContent = 'Yes! Unlocking something special...';
         state.unlocked = true;
         saveState();
+        syncMusic();
         setTimeout(() => goToLevel(1), 900);
       } else {
         state.passcodeWrongCount++;
@@ -1135,6 +1154,20 @@
     spawnConfetti(100);
 
     $('gift-hint-btn').onclick = () => { $('gift-hint').hidden = false; };
+
+    // The video only starts downloading once she taps the button.
+    const video = $('finale-video-player');
+    $('finale-video').hidden = true;
+    $('see-video-btn').hidden = !C.finaleVideo;
+    $('see-video-btn').onclick = () => {
+      if (!video.src) video.src = C.finaleVideo;
+      $('finale-video').hidden = false;
+      $('see-video-btn').hidden = true;
+      video.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      video.play().catch(() => {});
+    };
+    video.onplay = () => { finaleVideoPlaying = true; syncMusic(); };
+    video.onpause = video.onended = () => { finaleVideoPlaying = false; syncMusic(); };
 
     $('play-again-btn').onclick = () => {
       resetProgress();

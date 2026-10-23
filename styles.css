@@ -996,3 +996,21 @@ img { max-width: 100%; display: block; }
     scroll-behavior: auto !important;
   }
 }
+
+/* Finale video, revealed by the "See video" button */
+#see-video-btn {
+  margin: 4px auto 20px;
+}
+
+.finale-video {
+  margin: 4px 0 24px;
+}
+
+.finale-video video {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-pop);
+  background: #000;
+}

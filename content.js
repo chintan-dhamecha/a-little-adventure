@@ -262,6 +262,9 @@ const GAME_CONTENT = {
   finalMessage:
     "Happy Birthday, my love! ❤️🥹\n\nSometimes I wonder what I did right in life to deserve someone like you. You are not just my wife; you are my happiness, my peace, my strength, and the person who makes even an ordinary day feel special. No matter how difficult life gets, knowing that I have you by my side makes everything feel a little easier.\n\nBecause loving you was never just about finding someone to share my life with. It was about finding the person with whom I want to share every little thing that life has left for me.\n\nએક સુંદર ગુજરાતી શાયરી તારા માટે:\n\n“લાખો ચહેરાઓમાં એક તું ગમી ગઈ,\nમારી ખાલી જિંદગીમાં ખુશી બની ગઈ.\nમાંગ્યું નહોતું મેં કંઈ ખાસ ઈશ્વર પાસે,\nપણ તું મળી ને મારી દરેક પ્રાર્થના પૂરી થઈ ગઈ.” ❤️\n\nI dont know what is written for us in the future, but I know that whatever is destined, it will feel 1000 times better with you by my side. Any sorts of ups or downs that come in our journey, we will face it as one, we will enjoy it as one, and I will always thank god for bringing you into my life. I hope all our dreams come true, I desire to love the fullest with you, go on every exciting trip, adventure, help you face your fears, you help me face mine. Thank you for being a part of my life. Happiest Birthday to you.\n\nLove — Chintan",
 
+  // Played from the "See video" button under the birthday message.
+  finaleVideo: 'assets/video/sakleshpur.mp4',
+
   giftClue:
     "💎❤️ “A sparkling heart that hugs your ears, guess your gift!”",
   giftHint:
